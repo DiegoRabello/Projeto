@@ -2,16 +2,29 @@ import styles from "./Modal.module.css";
 console.log("Styles:", styles);
 import { useState } from "react";
 import PropTypes from "prop-types";
+import SignUp from "../SignUp/SignUp";
 
 export function Modal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showSignUp, setShowSignUp] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("email: ", email, "password: ", password);
   };
+
+  const toggleSignUp = () => {
+    setShowSignUp(!showSignUp);
+    setEmail("");
+    setPassword("");
+  };
+
   if (!isOpen) return null;
+
+  if (showSignUp) {
+    return <SignUp isOpen={isOpen} onClose={onClose} onToggle={toggleSignUp} />;
+  }
 
   return (
     <div className={styles.overlay}>
@@ -55,7 +68,7 @@ export function Modal({ isOpen, onClose }) {
         <div className={styles.divider}></div>
         <p className={styles.createAccount}>
           Não tem uma conta?{" "}
-          <a className={styles.createAccountLink} href="#">
+          <a className={styles.createAccountLink} href="#" onClick={toggleSignUp}>
             Crie uma conta
           </a>
         </p>
