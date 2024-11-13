@@ -1,23 +1,51 @@
 import styles from "./Modal.module.css";
-console.log("Styles:", styles);
 import { useState } from "react";
 import PropTypes from "prop-types";
 import SignUp from "../SignUp/SignUp";
+import { api, loginUser } from "../../services/api/api";
 
 export function Modal({ isOpen, onClose }) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showSignUp, setShowSignUp] = useState(false);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("email: ", email, "password: ", password);
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const data = await loginUser(username, password);
+      
+      // Verifica se o token foi salvo
+      const savedToken = localStorage.getItem('token');
+      if (!savedToken) {
+        throw new Error('Token não foi salvo corretamente');
+      }
+
+      setUsername("");
+      setPassword("");
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      console.error("Erro:", error);
+      setError(
+        error.response?.data?.message || 
+        error.message || 
+        'Erro ao fazer login. Verifique suas credenciais.'
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleSignUp = () => {
     setShowSignUp(!showSignUp);
-    setEmail("");
+    setUsername("");
     setPassword("");
+    setError("");
   };
 
   if (!isOpen) return null;
@@ -38,15 +66,18 @@ export function Modal({ isOpen, onClose }) {
           preparação?
         </p>
 
+        {error && <p className={styles.errorMessage}>{error}</p>}
+
         <form onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="username">Nome de usuário:</label>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
 
@@ -58,11 +89,16 @@ export function Modal({ isOpen, onClose }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
 
-          <button type="submit" className={styles.submitButton}>
-            Entrar
+          <button 
+            type="submit" 
+            className={styles.submitButton}
+            disabled={isLoading}
+          >
+            {isLoading ? "Entrando..." : "Entrar"}
           </button>
         </form>
         <div className={styles.divider}></div>

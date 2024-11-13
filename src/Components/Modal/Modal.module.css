@@ -131,3 +131,19 @@
     color: var(--primary);
     text-decoration: underline;
   }
+
+  .errorMessage {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
