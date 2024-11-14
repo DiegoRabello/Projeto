@@ -2,9 +2,9 @@ import styles from "./Modal.module.css";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import SignUp from "../SignUp/SignUp";
-import { api, loginUser } from "../../services/api/api";
+import { loginUser } from "../../services/api/api";
 
-export function Modal({ isOpen, onClose }) {
+export function Modal({ isOpen, onClose, onLoginSuccess }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showSignUp, setShowSignUp] = useState(false);
@@ -18,19 +18,15 @@ export function Modal({ isOpen, onClose }) {
 
     try {
       const data = await loginUser(username, password);
-      
-      // Verifica se o token foi salvo
-      const savedToken = localStorage.getItem('token');
-      if (!savedToken) {
-        throw new Error('Token não foi salvo corretamente');
-      }
-
+      console.log('[Modal] Dados do login:', data);
       setUsername("");
       setPassword("");
-      onClose();
-      window.location.reload();
+      onLoginSuccess({
+        ...data,
+        username: data.username || username
+      });
     } catch (error) {
-      console.error("Erro:", error);
+      console.error("[Modal]:", error.message);
       setError(
         error.response?.data?.message || 
         error.message || 
@@ -116,4 +112,5 @@ export function Modal({ isOpen, onClose }) {
 Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  onLoginSuccess: PropTypes.func.isRequired,
 };

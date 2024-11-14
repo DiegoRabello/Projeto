@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../img/logo.png";
-import { MagnifyingGlass, Sun, Moon } from "@phosphor-icons/react";
+import { MagnifyingGlass, Sun, Moon, User } from "@phosphor-icons/react";
 import styles from "./header.module.css";
 import { Modal } from "../Modal/Modal";
 import { useTheme } from "../../contexts/ThemeContext";
+import { authService } from "../../services/api/api";
 
 export function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
+  const [username, setUsername] = useState("");
   const { isDarkMode, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    setIsLoggedIn(authService.isAuthenticated());
+  }, []);
+
+  const handleLoginSuccess = (userData) => {
+    setIsLoggedIn(true);
+    setUsername(userData.username);
+    setIsModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    authService.logout();
+    setIsLoggedIn(false);
+    setUsername("");
+  };
 
   return (
     <div className={styles.container}>
@@ -38,26 +57,26 @@ export function Header() {
         </li>
 
         <li>
-          <button
-            className={styles.loginButton}
-            onClick={() => setIsModalOpen(true)}
-          >
-            Login
-          </button>
-        </li>
-
-        <li>
-          <div className={styles.searchBar}>
-            <MagnifyingGlass size={20} className={styles.icon} />
-            <input
-              type="text"
-              placeholder="Procure seus concursos"
-              className={styles.input}
-            />
-          </div>
+          {isLoggedIn ? (
+            <div className={styles.userInfo} onClick={handleLogout}>
+              <User size={24} weight="fill" className={styles.userIcon} />
+              <span className={styles.username}>{username}</span>
+            </div>
+          ) : (
+            <button
+              className={styles.loginButton}
+              onClick={() => setIsModalOpen(true)}
+            >
+              Login
+            </button>
+          )}
         </li>
       </ul>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
     </div>
   );
 }

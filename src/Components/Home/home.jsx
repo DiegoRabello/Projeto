@@ -1,7 +1,11 @@
 import styles from "./home.module.css";
 import studying from "../../img/8602650.png";
 import ConcursoList from "../ConcursoList/ConcursoList";
+import { useState } from "react";
+
 export function Home() {
+  const [uf, setUf] = useState("rj");
+
   return (
     <>
       <div className={styles.divider} />
@@ -20,7 +24,9 @@ export function Home() {
           <img src={studying} alt="Estudante se preparando para concurso" />
         </div>
       </div>
-      <ConcursoList />
+      <div>
+        <ConcursoList uf={uf} setUf={setUf} />
+      </div>
     </>
   );
 }
