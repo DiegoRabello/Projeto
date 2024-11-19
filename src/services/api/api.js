@@ -36,7 +36,7 @@ export const authService = {
 export const loginUser = async (username, password) => {
     try {
         const response = await api.post('/auth/login', { username, password });
-        
+        console.log(response.data);
         if (response.status === 200 && response.data) {
             // Salva apenas o token
             authService.login(response.data.token);
