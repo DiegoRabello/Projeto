@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// Cria uma instância do axios com configurações base para todas as requisições
 export const api = axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
@@ -7,7 +8,10 @@ export const api = axios.create({
     }
 });
 
-// Interceptor para adicionar token em todas as requisições
+/**
+ * Interceptor que automaticamente adiciona o token de autenticação em todas as requisições
+ * Verifica se existe um token no localStorage e o adiciona no header Authorization
+ */
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -16,7 +20,13 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// Serviço de autenticação
+/**
+ * Serviço de autenticação que gerencia o token JWT
+ * Contém métodos para:
+ * - login: salva o token no localStorage e configura headers
+ * - logout: remove o token e limpa headers
+ * - isAuthenticated: verifica se existe um token válido
+ */
 export const authService = {
     login: (token) => {
         localStorage.setItem('token', token);
@@ -33,6 +43,13 @@ export const authService = {
     }
 };
 
+/**
+ * Função que realiza o login do usuário
+ * @param {string} username - Nome de usuário
+ * @param {string} password - Senha do usuário
+ * @returns {Promise<Object>} Retorna um objeto com username e token em caso de sucesso
+ * @throws {Error} Lança erro em caso de falha na autenticação
+ */
 export const loginUser = async (username, password) => {
     try {
         const response = await api.post('/auth/login', { username, password });

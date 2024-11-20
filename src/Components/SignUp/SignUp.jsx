@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './SignUp.module.css';
 import PropTypes from "prop-types";
-import { api } from '../../services/api/api';
+import { api } from '../../services/ApiLogin/apiLogin';
 
 const SignUp = ({ isOpen, onClose, onToggle }) => {
     const [formData, setFormData] = useState({

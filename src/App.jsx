@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "./Components/Header/header";
-import { Home } from "./Components/Home/home";
-import { Favoritos } from "./Components/Favoritos/favoritos";
+import { Home } from "./pages/home/Home";
+import { Favoritos } from "./pages/favoritos/Favoritos";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
-import "./App.css";
 
 function App() {
   return (
@@ -13,7 +13,14 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/favoritos" element={<Favoritos />} />
+          <Route 
+            path="/favoritos" 
+            element={
+                <Favoritos />
+              // <PrivateRoute>
+              // </PrivateRoute>
+            } 
+          />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
