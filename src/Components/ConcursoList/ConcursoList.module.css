@@ -143,7 +143,7 @@
 
 .heartIcon {
   font-size: 1.5rem;
-  color: #ff4444;
+  color: #c5a572;
   transition: all 0.3s ease;
 }
 
@@ -161,7 +161,7 @@
 }
 
 .favorito .heartIcon {
-  color: #ff4444;
+  color: #c5a572;
   animation: heartBeat 0.3s ease-in-out;
 }
 

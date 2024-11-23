@@ -138,6 +138,22 @@
     transform: translateY(0);
 }
 
+.loginButtonMenu {
+    background-color: transparent;
+    color: var(--white);
+    border: 2px solid var(--gold);
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
@@ -241,4 +257,159 @@
     text-overflow: ellipsis;
     max-width: 150px;
     text-transform: capitalize;
+}
+
+
+/* Botão do Menu Hambúrguer (só visível em telas pequenas) */
+.menuButton {
+    background: none;
+    border: none;
+    color: var(--neutral-light);
+    cursor: pointer;
+    display: none; /* Oculte o botão em telas grandes */
+    z-index: 10; /* Para garantir que fique acima de outros elementos */
+}
+
+
+/* Estilo do Menu Lateral */
+.sideMenu {
+    position: fixed;
+    top: 0;
+    right: -250px; /* Inicialmente fora da tela */
+    width: 180px;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo transparente */
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease;
+    z-index: 5;
+
+    display: flex;               /* Usar flexbox para o layout */
+    flex-direction: column;      /* Organiza os itens verticalmente */
+    justify-content: center;     /* Centraliza verticalmente */
+    align-items: center;         /* Centraliza horizontalmente */
+}
+
+/* Estilos para o menu de navegação lateral */
+.sideMenu .nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 80px;               /* Remove o espaço no topo */
+    padding: 0;
+    list-style: none;
+}
+
+.sideMenu .nav ul li {
+    padding-left: 30px; /* Remove o padding à esquerda */
+}
+
+.sideMenu .nav ul li a {
+    text-decoration: none;
+    color: var(--neutral-light);
+    font-size: 1.2rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Estilos para o botão de fechar */
+/* .sideMenu button {
+    background-color: var(--primary-light);
+    color: var(--neutral-dark);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+} */
+
+/* Menu de navegação padrão (para telas grandes) */
+.navDesktop ul {
+    display: flex;
+    gap: 2rem; /* Espaçamento entre os itens */
+    margin: 0;
+    padding: 0;
+    align-items: center; /* Garante que os itens fiquem centralizados verticalmente */
+}
+
+/* Estilo dos itens dentro da navegação */
+.navDesktop ul li {
+    list-style: none;
+}
+
+/* Estilo para links dentro da navegação */
+.navDesktop ul li a {
+    text-decoration: none;
+    color: var(--neutral-light);
+    font-size: 1.2rem;
+    font-weight: 600;
+    white-space: nowrap; /* Impede o texto de quebrar em várias linhas */
+}
+
+.sobreNoisButton {
+    text-decoration: none;             
+    color: var(--neutral-light);     
+    font-size: 1.1rem;                 
+    padding: 0.5rem 1rem;             
+    transition: all 0.3s ease;         
+    font-weight: 600;                  
+    letter-spacing: 0.3px;            
+    border: none;                      
+    background: transparent;           
+    cursor: pointer;                   
+    position: relative;                
+}
+
+.sobreNoisButton:hover {
+    color: var(--gold-light);              
+}
+
+.sobreNoisButton:hover::after {
+    content: '';                        
+    display: block;                     
+    width: 100%;                        
+    height: 2px;                        
+    background: var(--gold);           
+    position: absolute;                 
+    bottom: -5px;                       
+    left: 0;                            
+    transition: all 0.3s ease;        
+}
+
+.fecharButton {
+    background-color: red;
+    
+    color: var(--white);
+   
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+/* Responsividade: Ajustes para telas pequenas */
+@media (max-width: 885px) {
+    /* Exibe o botão do menu apenas em telas pequenas */
+    .menuButton {
+        display: block;
+    }
+
+    /* O menu de navegação lateral vai aparecer quando o botão hambúrguer for clicado */
+    .sideMenu {
+        display: block;
+    }
+
+    /* O menu lateral vai se abrir e aparecer */
+    .sideMenu.open {
+        right: 0;
+    }
+
+    /* Esconde o menu padrão em telas pequenas */
+    .navDesktop {
+        display: none;
+    }
 }
